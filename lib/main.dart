@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quizzler/questions.dart';
-import 'quiz_brain.dart';
+import 'package:quizzler/quizpage.dart';
+import 'quiz_brain.dart'; // Import your QuizBrain file
 
-QuizBrain quizBrain = QuizBrain();
 void main() {
   runApp(const MyApp());
 }
@@ -20,15 +19,15 @@ class MyApp extends StatelessWidget {
 }
 
 class Quizzler extends StatefulWidget {
-  const Quizzler({
-    super.key,
-  });
+  const Quizzler({super.key});
 
   @override
-  State<Quizzler> createState() => _MyHomePageState();
+  State<Quizzler> createState() => _QuizzlerState();
 }
 
-class _MyHomePageState extends State<Quizzler> {
+class _QuizzlerState extends State<Quizzler> {
+  final QuizBrain quizBrain = QuizBrain();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,119 +36,12 @@ class _MyHomePageState extends State<Quizzler> {
         title: const Text('Quizzler'),
         backgroundColor: Colors.cyan,
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: QuizPage(),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: QuizPage(quizBrain: quizBrain),
         ),
       ),
-    );
-  }
-}
-
-class QuizPage extends StatefulWidget {
-  const QuizPage({super.key});
-
-  @override
-  State<QuizPage> createState() => _QuizPageState();
-}
-
-class _QuizPageState extends State<QuizPage> {
-  // void nextQuestion() {
-  //   setState(() {
-  //     if (questionNumber < questionBank .length - 1) {
-  //       questionNumber++;
-  //     } else {
-  //       questionNumber = 0;
-  //     }
-  //   });
-  // }
-
-  List<Icon> scoreKeeper = [];
-
-  int questionNumber = 0;
-
-  //    Question q1 = Question(q:'You can lead a cow down stairs but not up stairs',a: false),
-  // Question q2 = Question(q:'Approximately one quarter of human bones are in the feet ',a: true ),
-  // Question q3 = Question(q: 'A slug\'s blood is green',a: true);
-  // ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          flex: 5,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Center(
-              child: Text(
-                quizBrain.questionBank[questionNumber].questionText,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              onPressed: () {
-                bool correctAnswer =
-                    quizBrain.questionBank[questionNumber].questionAnswer;
-
-                if (correctAnswer == true) {
-                } else {}
-                questionNumber++;
-              },
-              child: const Text(
-                'TRUE',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextButton(
-              onPressed: () {
-                bool correctAnswer =
-                    quizBrain.questionBank[questionNumber].questionAnswer;
-
-                if (correctAnswer == true) {
-                } else {}
-                questionNumber++;
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.red,
-              ),
-              child: const Text(
-                'FALSE',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-        Row(
-          children: scoreKeeper,
-        )
-      ],
     );
   }
 }
